@@ -16,6 +16,13 @@ endif()
 
 include(generated/rexglue.cmake)
 
+if(ANDROID)
+    # Same libc++ shims the SDK uses (std::move_only_function, clock_cast, pthread stubs).
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-include${CMAKE_CURRENT_SOURCE_DIR}/sdk/rexglue/cmake/android_compat.h>)
+    add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-fexperimental-library>)
+    add_link_options(-fexperimental-library)
+endif()
+
 set(WWE2K16_SOURCES
     src/main.cpp
     src/disc_image.cpp
