@@ -29,3 +29,4 @@ __pycache__/
 
 # Mods installed through the launcher
 /mods/
+*.log

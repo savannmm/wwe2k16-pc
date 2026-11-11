@@ -7,6 +7,13 @@ project(wwe2k16 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if(ANDROID AND NOT TARGET rex::rexglue)
+    # Codegen runs on the build host, not on Android: point at the Linux x64 tool.
+    set(REXGLUE_HOST_TOOL "/workspaces/wwe2k16-pc/sdk/rexglue/out/install/linux-amd64/bin/rexglue" CACHE FILEPATH "Host rexglue codegen tool")
+    add_executable(rex::rexglue IMPORTED GLOBAL)
+    set_target_properties(rex::rexglue PROPERTIES IMPORTED_LOCATION "${REXGLUE_HOST_TOOL}")
+endif()
+
 include(generated/rexglue.cmake)
 
 set(WWE2K16_SOURCES
