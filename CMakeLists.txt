@@ -42,11 +42,17 @@ set(WWE2K16_SOURCES
 
 if(WIN32)
     add_executable(wwe2k16 WIN32 ${WWE2K16_SOURCES})
+elseif(ANDROID)
+    add_library(wwe2k16 SHARED ${WWE2K16_SOURCES})
+    set_target_properties(wwe2k16 PROPERTIES OUTPUT_NAME main)
 else()
     add_executable(wwe2k16 ${WWE2K16_SOURCES})
 endif()
 
 rexglue_setup_target(wwe2k16)
+if(ANDROID)
+    target_compile_definitions(wwe2k16 PRIVATE REX_ANDROID_APP_ID="wwe2k16")
+endif()
 
 # Title update 3 build: wwe2k16_tu.exe from generated_tu\ (tools/build-tu.ps1). Same app code; WWE2K16_TU selects the
 # title update's function addresses where the app hooks the game.
